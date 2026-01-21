@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KITCHE STUDIOS | Visual Architects</title>
+    
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Manrope:wght@200;300;400;600&family=Space+Mono:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================================
+           1. CORE AESTHETICS (DARK LUXURY)
+           ========================================= */
+        :root {
+            --bg-deep: #050505;
+            --bg-panel: #0F0F0F;
+            --text-primary: #EAEAEA;
+            --text-muted: #888;
+            --accent: #D4AF37; /* Metallic Gold */
+            --accent-dim: #5c4d1d;
+            --danger: #ff3333;
+            --success: #00ff88;
+            --border: rgba(255, 255, 255, 0.08);
+            
+            --font-display: 'Cinzel', serif;
+            --font-body: 'Manrope', sans-serif;
+            --font-tech: 'Space Mono', monospace;
+            
+            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* UTILITIES */
+        .uppercase { text-transform: uppercase; letter-spacing: 0.1em; }
+        .mono { font-family: var(--font-tech); font-size: 0.8rem; letter-spacing: 0.05em; color: var(--accent); }
+        .flex-center { display: flex; justify-content: center; align-items: center; }
+        .text-gold { color: var(--accent); }
+        .hidden { display: none !important; }
+
+        /* BUTTONS */
+        .btn {
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: white;
+            font-family: var(--font-tech);
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s var(--ease);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: ''; position: absolute; top:0; left:0; width:0; height:100%;
+            background: var(--accent); z-index: -1; transition: width 0.3s ease;
+        }
+        .btn:hover { border-color: var(--accent); color: black; }
+        .btn:hover::before { width: 100%; }
+
+        /* =========================================
+           2. NAVIGATION & HERO
+           ========================================= */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100; mix-blend-mode: normal; /* Changed from difference to protect logo colors */
+            background: rgba(5, 5, 5, 0.8); /* Slight dark background for readability */
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        /* UPDATED LOGO STYLE */
+        .logo img {
+            height: 50px; /* Adjusts logo size */
+            width: auto;
+            display: block;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            position: relative;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 70%);
+        }
+        
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            text-align: center;
+            opacity: 0;
+            animation: fadeUp 1.5s var(--ease) 0.5s forwards;
+        }
+        
+        .hero p {
+            font-family: var(--font-tech);
+            margin-top: 1rem;
+            color: var(--accent);
+            opacity: 0;
+            animation: fadeUp 1.5s var(--ease) 0.8s forwards;
+        }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(30px); } }
+
+        /* =========================================
+           3. CLIENT PORTAL (The Vault)
+           ========================================= */
+        .portal-section {
+            padding: 8rem 2rem;
+            min-height: 100vh;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+
+        .vault-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.5) 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        /* STATE: LOCKED */
+        .vault-lock-screen {
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        .vault-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--border);
+            color: white;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            margin: 2rem 0;
+            padding-bottom: 0.5rem;
+        }
+        .vault-input:focus { border-color: var(--accent); }
+
+        /* STATE: UNLOCKED (Gallery) */
+        .client-dashboard {
+            display: none; /* Hidden by default */
+        }
+        
+        .client-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: flex-end;
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .project-status {
+            font-family: var(--font-tech);
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid currentColor;
+            margin-top: 0.5rem; display: inline-block;
+        }
+        .status-unpaid { color: var(--danger); border-color: var(--danger); }
+        .status-paid { color: var(--success); border-color: var(--success); }
+
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            position: relative;
+        }
+
+        .client-img-wrapper {
+            aspect-ratio: 1;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .client-img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: filter 0.5s;
+        }
+
+        /* BLUR EFFECT FOR UNPAID */
+        .blur-lock .client-img {
+            filter: blur(15px) grayscale(1);
+            pointer-events: none;
+        }
+
+        .pay-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 10;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        /* =========================================
+           4. ADMIN DASHBOARD (Hidden)
+           ========================================= */
+        #admin-panel {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999;
+            padding: 2rem;
+            display: none;
+            overflow-y: auto;
+        }
+        
+        .admin-form {
+            max-width: 600px; margin: 0 auto;
+            border: 1px solid var(--border); padding: 2rem;
+        }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-family: var(--font-tech); color: var(--text-muted); margin-bottom: 0.5rem; }
+        .form-input { 
+            width: 100%; padding: 1rem; background: #111; border: 1px solid var(--border); color: white;
+            font-family: var(--font-body);
+        }
+        .form-input:focus { border-color: var(--accent); }
+
+        .file-drop-zone {
+            border: 2px dashed var(--border); padding: 2rem; text-align: center; cursor: pointer;
+            transition: 0.3s;
+        }
+        .file-drop-zone:hover { border-color: var(--accent); background: rgba(212, 175, 55, 0.05); }
+
+        /* =========================================
+           5. BOOKING / PRICING
+           ========================================= */
+        .booking-section { padding: 6rem 2rem; border-top: 1px solid var(--border); }
+        .price-row {
+            display: flex; justify-content: space-between; padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer; transition: 0.3s;
+        }
+        .price-row:hover { padding-left: 1rem; background: rgba(255,255,255,0.02); }
+
+        footer {
+            padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+        .staff-login { cursor: pointer; opacity: 0.3; transition: 0.3s; }
+        .staff-login:hover { opacity: 1; color: var(--accent); }
+
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="logo">
+            <img src="KS NEW LOGO.png" alt="KITCHE STUDIOS">
+        </a>
+        
+        <a href="#booking" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.7rem;">Book Now</a>
+    </nav>
+
+    <header class="hero">
+        <h1 class="uppercase">Visuals<br><span class="text-gold">Defined</span></h1>
+        <p class="uppercase">Lagos / Global / Editorial</p>
+    </header>
+
+    <section id="portal" class="portal-section">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <span class="mono">SECURE ACCESS</span>
+            <h2 class="uppercase" style="font-family: var(--font-display); font-size: 2.5rem; margin-top: 0.5rem;">Client Vault</h2>
+        </div>
+
+        <div class="vault-container">
+            
+            <div id="lock-screen" class="vault-lock-screen">
+                <p class="mono">ENTER ACCESS CODE</p>
+                <input type="password" id="access-code" class="vault-input" placeholder="KITCHE-XXX">
+                <br>
+                <button class="btn" onclick="ClientApp.login()">Decrypt Vault</button>
+                <p id="login-error" class="mono" style="color: var(--danger); margin-top: 1rem; display: none;">INVALID CODE</p>
+            </div>
+
+            <div id="client-dashboard" class="client-dashboard">
+                <div class="client-header">
+                    <div>
+                        <h2 id="client-name" style="font-family: var(--font-display);">Project Name</h2>
+                        <div id="payment-badge" class="project-status status-unpaid">PAYMENT PENDING</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="mono">TOTAL DUE</div>
+                        <div id="client-amount" style="font-size: 1.5rem; color: var(--text-primary);">₦0.00</div>
+                    </div>
+                </div>
+
+                <div style="position: relative;">
+                    <div id="gallery-grid" class="client-grid blur-lock">
+                        </div>
+
+                    <div id="paywall-overlay" class="pay-overlay">
+                        <div style="text-align: center; background: #000; padding: 3rem; border: 1px solid var(--accent);">
+                            <h3 class="uppercase text-gold" style="margin-bottom: 1rem;">Gallery Locked</h3>
+                            <p style="margin-bottom: 2rem; color: #ccc; max-width: 300px;">
+                                Please complete your payment to unlock full resolution downloads and remove watermarks.
+                            </p>
+                            <button id="pay-btn" class="btn" onclick="ClientApp.pay()">
+                                Pay Now <span id="pay-btn-amount"></span>
+                            </button>
+                            <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                                <span class="mono" style="font-size: 0.6rem;">SECURED BY</span>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Paystack.png" height="15" alt="Paystack" style="filter: grayscale(1);">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="download-section" style="padding: 2rem; text-align: center; display: none;">
+                    <p class="text-gold mono" style="margin-bottom: 1rem;">ACCESS GRANTED</p>
+                    <button class="btn" onclick="alert('Downloading Zip Bundle...')">Download All Assets (ZIP)</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="booking-section">
+        <div style="max-width: 900px; margin: 0 auto;">
+            <span class="mono">SERVICES</span>
+            <h2 class="uppercase" style="font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 3rem;">Start a Project</h2>
+            
+            <div class="price-row">
+                <span class="uppercase">Portrait Session</span>
+                <span class="mono">FROM ₦150,000</span>
+            </div>
+            <div class="price-row">
+                <span class="uppercase">Brand Campaign</span>
+                <span class="mono">FROM ₦500,000</span>
+            </div>
+            <div class="price-row">
+                <span class="uppercase">Wedding / Events</span>
+                <span class="mono">FROM ₦1,200,000</span>
+            </div>
+            
+            <div style="margin-top: 3rem; text-align: center;">
+                <p class="mono">FOR BOOKINGS WHATSAPP US</p>
+                <a href="#https://w.app/kitchestudios" class="btn" style="margin-top: 1rem;">+234 810 453 0158</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 KITCHE STUDIOS.</p>
+        <br>
+        <span class="staff-login" onclick="AdminApp.toggle()">STAFF LOGIN</span>
+    </footer>
+
+    <div id="admin-panel">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
+            <h2 class="text-gold">ADMIN CONSOLE</h2>
+            <button class="btn" onclick="AdminApp.toggle()">CLOSE</button>
+        </div>
+
+        <div id="admin-login">
+            <input type="password" id="admin-pass" class="form-input" placeholder="Enter Admin Password (admin)" style="max-width: 300px;">
+            <button class="btn" style="margin-top: 1rem;" onclick="AdminApp.auth()">Enter</button>
+        </div>
+
+        <div id="admin-content" class="hidden">
+            <div class="admin-form">
+                <h3 style="margin-bottom: 2rem;">Create New Client Gallery</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Client / Project Name</label>
+                    <input type="text" id="new-client-name" class="form-input" placeholder="e.g. Wedding of Ada & Tobi">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Access Code (Password)</label>
+                    <input type="text" id="new-client-code" class="form-input" placeholder="e.g. ADA2024">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Total Amount (Naira)</label>
+                    <input type="number" id="new-client-price" class="form-input" placeholder="e.g. 500000">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Upload Photos</label>
+                    <input type="file" id="photo-input" multiple accept="image/*" class="form-input">
+                    <p class="mono" style="font-size: 0.7rem; color: #666; margin-top: 5px;">*Images stored locally in browser memory for demo.</p>
+                </div>
+
+                <button class="btn" onclick="AdminApp.createProject()">Generate Gallery</button>
+                <p id="admin-msg" class="text-gold" style="margin-top: 1rem;"></p>
+            </div>
+
+            <div style="margin-top: 4rem;">
+                <h3>Active Projects (LocalStorage)</h3>
+                <div id="project-list" class="mono" style="margin-top: 1rem; color: #888;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // CONFIGURATION
+        const PAYSTACK_PUBLIC_KEY = 'pk_live_8f50c14977db8dc890c79ceac540071e3035faf4'; 
+        
+        // --- 1. ADMIN APP (Upload & Create) ---
+        const AdminApp = {
+            toggle: () => {
+                const panel = document.getElementById('admin-panel');
+                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+            },
+            
+            auth: () => {
+                const pass = document.getElementById('admin-pass').value;
+                if(pass === 'admin') {
+                    document.getElementById('admin-login').classList.add('hidden');
+                    document.getElementById('admin-content').classList.remove('hidden');
+                    AdminApp.loadProjects();
+                } else {
+                    alert('Wrong password');
+                }
+            },
+
+            createProject: async () => {
+                const name = document.getElementById('new-client-name').value;
+                const code = document.getElementById('new-client-code').value;
+                const price = document.getElementById('new-client-price').value;
+                const fileInput = document.getElementById('photo-input');
+
+                if(!name || !code || !price) return alert('Fill all fields');
+
+                // Process Images to Base64 (to simulate upload without server)
+                const images = [];
+                if (fileInput.files.length > 0) {
+                    for (let file of fileInput.files) {
+                        const base64 = await AdminApp.toBase64(file);
+                        images.push(base64);
+                    }
+                } else {
+                    // Default placeholders if no file picked
+                    images.push('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');
+                    images.push('https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800');
+                    images.push('https://images.unsplash.com/photo-1520854221256-17451cc330e7?w=800');
+                }
+
+                const project = {
+                    id: Date.now(),
+                    name,
+                    code,
+                    price,
+                    images,
+                    paid: false,
+                    email: 'client@example.com' // simplified
+                };
+
+                // Save to LocalStorage
+                const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
+                db.push(project);
+                localStorage.setItem('kitcheDB', JSON.stringify(db));
+
+                document.getElementById('admin-msg').innerText = `SUCCESS! Project Created. Code: ${code}`;
+                AdminApp.loadProjects();
+            },
+
+            loadProjects: () => {
+                const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
+                const list = document.getElementById('project-list');
+                if(db.length === 0) {
+                    list.innerHTML = "No active projects.";
+                } else {
+                    list.innerHTML = db.map(p => 
+                        `<div style="border-bottom:1px solid #333; padding:10px;">
+                            ${p.name} (Code: ${p.code}) - ₦${p.price} - ${p.paid ? 'PAID' : 'PENDING'}
+                         </div>`
+                    ).join('');
+                }
+            },
+
+            toBase64: file => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            })
+        };
+
+        // --- 2. CLIENT APP (Portal & Paystack) ---
+        const ClientApp = {
+            currentProject: null,
+
+            login: () => {
+                const inputCode = document.getElementById('access-code').value;
+                const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
+                
+                // Find project by code
+                const project = db.find(p => p.code === inputCode);
+
+                if(project) {
+                    ClientApp.currentProject = project;
+                    ClientApp.renderDashboard(project);
+                } else {
+                    // DEMO MODE: If user enters demo code without creating one
+                    if(inputCode === 'DEMO') {
+                        ClientApp.currentProject = {
+                            id: 999, name: 'Demo Campaign', price: '50000', paid: false,
+                            images: ['https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500']
+                        };
+                        ClientApp.renderDashboard(ClientApp.currentProject);
+                    } else {
+                        document.getElementById('login-error').style.display = 'block';
+                    }
+                }
+            },
+
+            renderDashboard: (project) => {
+                // Switch Screens
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('client-dashboard').style.display = 'block';
+
+                // Populate Info
+                document.getElementById('client-name').innerText = project.name;
+                document.getElementById('client-amount').innerText = '₦' + parseInt(project.price).toLocaleString();
+                document.getElementById('pay-btn-amount').innerText = '(₦' + parseInt(project.price).toLocaleString() + ')';
+
+                // Populate Grid
+                const grid = document.getElementById('gallery-grid');
+                grid.innerHTML = project.images.map(img => `
+                    <div class="client-img-wrapper">
+                        <img src="${img}" class="client-img">
+                    </div>
+                `).join('');
+
+                // Check Status
+                ClientApp.updateStatusUI(project.paid);
+            },
+
+            updateStatusUI: (isPaid) => {
+                const badge = document.getElementById('payment-badge');
+                const overlay = document.getElementById('paywall-overlay');
+                const grid = document.getElementById('gallery-grid');
+                const dlSection = document.getElementById('download-section');
+
+                if(isPaid) {
+                    badge.innerText = "PAYMENT COMPLETE";
+                    badge.className = "project-status status-paid";
+                    overlay.style.display = 'none'; // Remove lock
+                    grid.classList.remove('blur-lock'); // Unblur
+                    dlSection.style.display = 'block'; // Show download
+                } else {
+                    badge.innerText = "PAYMENT PENDING";
+                    badge.className = "project-status status-unpaid";
+                    overlay.style.display = 'flex';
+                    grid.classList.add('blur-lock');
+                    dlSection.style.display = 'none';
+                }
+            },
+
+            pay: () => {
+                const project = ClientApp.currentProject;
+                
+                const handler = PaystackPop.setup({
+                    key: PAYSTACK_PUBLIC_KEY,
+                    email: 'client@kitche.com', // In a real app, ask user for email
+                    amount: project.price * 100, // Convert to Kobo
+                    currency: 'NGN', 
+                    ref: ''+Math.floor((Math.random() * 1000000000) + 1),
+                    onClose: function(){
+                        alert('Payment window closed.');
+                    },
+                    callback: function(response){
+                        // PAYMENT SUCCESSFUL
+                        // 1. Update UI
+                        ClientApp.updateStatusUI(true);
+                        
+                        // 2. Update Database (LocalStorage)
+                        const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
+                        const index = db.findIndex(p => p.id === project.id);
+                        if(index !== -1) {
+                            db[index].paid = true;
+                            localStorage.setItem('kitcheDB', JSON.stringify(db));
+                        }
+                        alert('Payment Complete! Gallery Unlocked.');
+                    }
+                });
+                handler.openUI();
+            }
+        };
+
+        // Scroll Reveal
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if(window.scrollY > 50) nav.style.background = '#050505';
+            else nav.style.background = 'rgba(5, 5, 5, 0.8)';
+        });
+
+    </script>
+</body>
+</html>
