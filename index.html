@@ -9,607 +9,454 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Manrope:wght@200;300;400;600&family=Space+Mono:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Manrope:wght@300;400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================
-           1. CORE AESTHETICS (DARK LUXURY)
+           STYLE ENGINE
            ========================================= */
         :root {
-            --bg-deep: #050505;
-            --bg-panel: #0F0F0F;
-            --text-primary: #EAEAEA;
-            --text-muted: #888;
-            --accent: #D4AF37; /* Metallic Gold */
-            --accent-dim: #5c4d1d;
-            --danger: #ff3333;
-            --success: #00ff88;
-            --border: rgba(255, 255, 255, 0.08);
-            
-            --font-display: 'Cinzel', serif;
-            --font-body: 'Manrope', sans-serif;
-            --font-tech: 'Space Mono', monospace;
-            
-            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --bg: #050505;
+            --panel: #111;
+            --text-main: #f0f0f0;
+            --gold: #D4AF37;
+            --border: #222;
+            --green: #00e676;
+            --red: #ff3d00;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
         
-        html { scroll-behavior: smooth; }
-        
         body {
-            background-color: var(--bg-deep);
-            color: var(--text-primary);
-            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Manrope', sans-serif;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* UTILITIES */
-        .uppercase { text-transform: uppercase; letter-spacing: 0.1em; }
-        .mono { font-family: var(--font-tech); font-size: 0.8rem; letter-spacing: 0.05em; color: var(--accent); }
-        .flex-center { display: flex; justify-content: center; align-items: center; }
-        .text-gold { color: var(--accent); }
+        h1, h2, h3 { font-family: 'Cinzel', serif; }
+        .mono { font-family: 'Space Mono', monospace; letter-spacing: 1px; }
+        .text-gold { color: var(--gold); }
         .hidden { display: none !important; }
 
         /* BUTTONS */
         .btn {
-            padding: 1rem 2.5rem;
+            padding: 15px 30px;
             background: transparent;
-            border: 1px solid var(--border);
-            color: white;
-            font-family: var(--font-tech);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Space Mono', monospace;
             cursor: pointer;
             text-transform: uppercase;
-            transition: all 0.3s var(--ease);
-            position: relative;
-            overflow: hidden;
-        }
-        .btn::before {
-            content: ''; position: absolute; top:0; left:0; width:0; height:100%;
-            background: var(--accent); z-index: -1; transition: width 0.3s ease;
-        }
-        .btn:hover { border-color: var(--accent); color: black; }
-        .btn:hover::before { width: 100%; }
-
-        /* =========================================
-           2. NAVIGATION & HERO
-           ========================================= */
-        nav {
-            position: fixed; top: 0; width: 100%; padding: 1.5rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 100; mix-blend-mode: normal; /* Changed from difference to protect logo colors */
-            background: rgba(5, 5, 5, 0.8); /* Slight dark background for readability */
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        /* UPDATED LOGO STYLE */
-        .logo img {
-            height: 100px; /* Adjusts logo size */
-            width: auto;
-            display: block;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            position: relative;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 70%);
-        }
-        
-        .hero h1 {
-            font-family: var(--font-display);
-            font-size: clamp(3rem, 10vw, 8rem);
-            line-height: 0.9;
-            text-align: center;
-            opacity: 0;
-            animation: fadeUp 1.5s var(--ease) 0.5s forwards;
-        }
-        
-        .hero p {
-            font-family: var(--font-tech);
-            margin-top: 1rem;
-            color: var(--accent);
-            opacity: 0;
-            animation: fadeUp 1.5s var(--ease) 0.8s forwards;
-        }
-
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(30px); } }
-
-        /* =========================================
-           3. CLIENT PORTAL (The Vault)
-           ========================================= */
-        .portal-section {
-            padding: 8rem 2rem;
-            min-height: 100vh;
-            border-top: 1px solid var(--border);
-            position: relative;
-        }
-
-        .vault-container {
-            max-width: 900px;
-            margin: 0 auto;
-            border: 1px solid var(--border);
-            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(0,0,0,0.5) 100%);
-            backdrop-filter: blur(10px);
-        }
-
-        /* STATE: LOCKED */
-        .vault-lock-screen {
-            padding: 5rem 2rem;
-            text-align: center;
-        }
-        .vault-input {
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid var(--border);
-            color: white;
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-            margin: 2rem 0;
-            padding-bottom: 0.5rem;
-        }
-        .vault-input:focus { border-color: var(--accent); }
-
-        /* STATE: UNLOCKED (Gallery) */
-        .client-dashboard {
-            display: none; /* Hidden by default */
-        }
-        
-        .client-header {
-            padding: 2rem;
-            border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: flex-end;
-            background: rgba(212, 175, 55, 0.05);
-        }
-
-        .project-status {
-            font-family: var(--font-tech);
-            font-size: 0.7rem;
-            padding: 0.3rem 0.8rem;
-            border: 1px solid currentColor;
-            margin-top: 0.5rem; display: inline-block;
-        }
-        .status-unpaid { color: var(--danger); border-color: var(--danger); }
-        .status-paid { color: var(--success); border-color: var(--success); }
-
-        .client-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1px;
-            background: var(--border);
-            position: relative;
-        }
-
-        .client-img-wrapper {
-            aspect-ratio: 1;
-            background: #000;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .client-img {
-            width: 100%; height: 100%; object-fit: cover;
-            transition: filter 0.5s;
-        }
-
-        /* BLUR EFFECT FOR UNPAID */
-        .blur-lock .client-img {
-            filter: blur(15px) grayscale(1);
-            pointer-events: none;
-        }
-
-        .pay-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 10;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            backdrop-filter: blur(4px);
-        }
-
-        /* =========================================
-           4. ADMIN DASHBOARD (Hidden)
-           ========================================= */
-        #admin-panel {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 9999;
-            padding: 2rem;
-            display: none;
-            overflow-y: auto;
-        }
-        
-        .admin-form {
-            max-width: 600px; margin: 0 auto;
-            border: 1px solid var(--border); padding: 2rem;
-        }
-        
-        .form-group { margin-bottom: 1.5rem; }
-        .form-label { display: block; font-family: var(--font-tech); color: var(--text-muted); margin-bottom: 0.5rem; }
-        .form-input { 
-            width: 100%; padding: 1rem; background: #111; border: 1px solid var(--border); color: white;
-            font-family: var(--font-body);
-        }
-        .form-input:focus { border-color: var(--accent); }
-
-        .file-drop-zone {
-            border: 2px dashed var(--border); padding: 2rem; text-align: center; cursor: pointer;
+            font-weight: 700;
             transition: 0.3s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .file-drop-zone:hover { border-color: var(--accent); background: rgba(212, 175, 55, 0.05); }
+        .btn:hover { background: var(--gold); color: black; box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .btn-solid { background: var(--gold); color: black; }
 
-        /* =========================================
-           5. BOOKING / PRICING
-           ========================================= */
-        .booking-section { padding: 6rem 2rem; border-top: 1px solid var(--border); }
-        .price-row {
-            display: flex; justify-content: space-between; padding: 1.5rem 0;
+        /* NAV */
+        nav {
+            padding: 20px 5%;
             border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(5,5,5,0.95); position: sticky; top: 0; z-index: 100;
+        }
+        .logo-img { height: 50px; width: auto; object-fit: contain; }
+
+        /* HERO */
+        .hero {
+            min-height: 80vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 70%);
+            padding: 20px;
+        }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 5rem); line-height: 1.1; margin-bottom: 20px; }
+
+        /* PUBLIC GALLERY */
+        .portfolio-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px;
+            border-top: 1px solid var(--border);
+        }
+        .p-item {
+            height: 400px; position: relative; overflow: hidden; border: 1px solid #222;
+        }
+        .p-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .p-item:hover img { transform: scale(1.1); }
+        .p-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; padding: 20px;
+            background: linear-gradient(to top, black, transparent); opacity: 0; transition: 0.3s;
+        }
+        .p-item:hover .p-overlay { opacity: 1; }
+
+        /* CLIENT PORTAL */
+        .portal-section { padding: 100px 20px; border-top: 1px solid var(--border); }
+        .login-box {
+            max-width: 600px; margin: 0 auto; text-align: center;
+            padding: 60px 20px; border: 1px solid var(--border); background: #0a0a0a;
+        }
+        .code-input {
+            background: transparent; border: none; border-bottom: 2px solid #333;
+            color: var(--gold); font-size: 2rem; text-align: center; width: 100%; max-width: 300px;
+            margin: 30px 0; font-family: 'Cinzel', serif;
+        }
+
+        /* DASHBOARD */
+        .dashboard { max-width: 900px; margin: 0 auto; border: 1px solid var(--border); background: #111; }
+        .dash-header {
+            padding: 30px; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: flex-end;
+        }
+        .dash-body { padding: 50px 20px; text-align: center; }
+
+        /* DRIVE BUTTON */
+        .drive-btn {
+            background: #1a1a1a; color: white; padding: 25px;
+            border: 1px solid #333; margin: 0 auto; max-width: 450px;
+            display: flex; align-items: center; justify-content: center; gap: 15px;
             cursor: pointer; transition: 0.3s;
         }
-        .price-row:hover { padding-left: 1rem; background: rgba(255,255,255,0.02); }
+        .drive-btn:hover { border-color: var(--gold); background: #222; }
 
-        footer {
-            padding: 2rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;
-            border-top: 1px solid var(--border);
+        /* ADMIN */
+        #admin-panel {
+            position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%;
+            background: #0f0f0f; border-left: 1px solid var(--gold); z-index: 9999;
+            padding: 40px; transition: 0.4s; overflow-y: auto;
         }
-        .staff-login { cursor: pointer; opacity: 0.3; transition: 0.3s; }
-        .staff-login:hover { opacity: 1; color: var(--accent); }
+        #admin-panel.open { right: 0; }
+        .admin-input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: white; margin-bottom: 10px; }
 
+        /* RECEIPT MODAL */
+        .receipt-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+        }
+        .receipt-paper {
+            background: white; color: black; padding: 40px; width: 90%; max-width: 400px;
+            font-family: 'Space Mono', monospace; text-align: center;
+        }
+
+        /* PRINT */
+        @media print {
+            body * { visibility: hidden; }
+            .receipt-paper, .receipt-paper * { visibility: visible; }
+            .receipt-modal { position: absolute; left: 0; top: 0; background: white; }
+            .receipt-paper { width: 100%; max-width: none; box-shadow: none; }
+            .no-print { display: none; }
+        }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html" class="logo">
-            <img src="KS NEW LOGO.png" alt="KITCHE STUDIOS">
-        </a>
-        
-        <a href="#booking" class="btn" style="padding: 0.5rem 1.5rem; font-size: 0.7rem;">Book Now</a>
+        <img src="KS NEW LOGO.png" alt="KITCHE" class="logo-img">
+        <div style="display:flex; gap:15px;">
+            <a href="#portfolio" class="btn" style="font-size:0.8rem; padding:10px 20px;">Portfolio</a>
+            <a href="#portal" class="btn" style="font-size:0.8rem; padding:10px 20px;">Client Login</a>
+        </div>
     </nav>
 
     <header class="hero">
-        <h1 class="uppercase">Visuals<br><span class="text-gold">Defined</span></h1>
-        <p class="uppercase">Abuja / Global / Editorial</p>
+        <h1 class="text-gold">VISUAL<br>ARCHITECTS</h1>
+        <p class="mono" style="color:#888; margin-bottom:40px;">NIGERIA / GLOBAL</p>
+        <a href="#portal" class="btn btn-solid">Access Project</a>
     </header>
 
+    <section id="portfolio" style="padding: 60px 20px; text-align: center;">
+        <h2 class="text-gold" style="margin-bottom: 10px;">SELECTED WORKS</h2>
+        <p class="mono" style="margin-bottom: 40px; font-size: 0.8rem; color: #666;">PUBLIC SHOWCASE</p>
+        
+        <div class="portfolio-grid">
+            <div class="p-item"><img src="https://images.unsplash.com/photo-1550614000-4b9519e02a48?w=800&q=80" loading="lazy"></div>
+            <div class="p-item"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=800&q=80" loading="lazy"></div>
+            <div class="p-item"><img src="https://images.unsplash.com/photo-1619983081563-430f63602796?w=800&q=80" loading="lazy"></div>
+            <div class="p-item"><img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?w=800&q=80" loading="lazy"></div>
+        </div>
+    </section>
+
     <section id="portal" class="portal-section">
-        <div style="text-align: center; margin-bottom: 3rem;">
-            <span class="mono">SECURE ACCESS</span>
-            <h2 class="uppercase" style="font-family: var(--font-display); font-size: 2.5rem; margin-top: 0.5rem;">Client Vault</h2>
+        <div id="login-view" class="login-box">
+            <h2 class="text-gold">CLIENT VAULT</h2>
+            <input type="password" id="access-code" class="code-input" placeholder="ENTER ACCESS CODE">
+            <br>
+            <button class="btn" onclick="App.login()">ENTER VAULT</button>
+            <p id="login-error" class="mono" style="color:var(--red); margin-top:20px; display:none;">INVALID ACCESS CODE</p>
         </div>
 
-        <div class="vault-container">
-            
-            <div id="lock-screen" class="vault-lock-screen">
-                <p class="mono">ENTER ACCESS CODE</p>
-                <input type="password" id="access-code" class="vault-input" placeholder="KITCHE-XXX">
-                <br>
-                <button class="btn" onclick="ClientApp.login()">Decrypt Vault</button>
-                <p id="login-error" class="mono" style="color: var(--danger); margin-top: 1rem; display: none;">INVALID CODE</p>
+        <div id="dashboard-view" class="dashboard hidden">
+            <div class="dash-header">
+                <div>
+                    <div class="mono" style="color:#666; font-size:0.7rem;">PROJECT NAME</div>
+                    <h2 id="dash-name">Wedding 2024</h2>
+                </div>
+                <div style="text-align: right;">
+                    <div class="mono" style="color:#666; font-size:0.7rem;">STATUS</div>
+                    <div id="dash-status" class="mono" style="color:var(--red); font-weight:bold;">UNPAID</div>
+                    <div id="dash-price" class="text-gold" style="font-size:1.5rem;">₦0</div>
+                </div>
             </div>
 
-            <div id="client-dashboard" class="client-dashboard">
-                <div class="client-header">
-                    <div>
-                        <h2 id="client-name" style="font-family: var(--font-display);">Project Name</h2>
-                        <div id="payment-badge" class="project-status status-unpaid">PAYMENT PENDING</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div class="mono">TOTAL DUE</div>
-                        <div id="client-amount" style="font-size: 1.5rem; color: var(--text-primary);">₦0.00</div>
-                    </div>
-                </div>
-
-                <div style="position: relative;">
-                    <div id="gallery-grid" class="client-grid blur-lock">
-                        </div>
-
-                    <div id="paywall-overlay" class="pay-overlay">
-                        <div style="text-align: center; background: #000; padding: 3rem; border: 1px solid var(--accent);">
-                            <h3 class="uppercase text-gold" style="margin-bottom: 1rem;">Gallery Locked</h3>
-                            <p style="margin-bottom: 2rem; color: #ccc; max-width: 300px;">
-                                Please complete your payment to unlock full resolution downloads and remove watermarks.
-                            </p>
-                            <button id="pay-btn" class="btn" onclick="ClientApp.pay()">
-                                Pay Now <span id="pay-btn-amount"></span>
-                            </button>
-                            <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                                <span class="mono" style="font-size: 0.6rem;">SECURED BY</span>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Paystack.png" height="15" alt="Paystack" style="filter: grayscale(1);">
-                            </div>
-                        </div>
+            <div class="dash-body">
+                
+                <div id="pay-step">
+                    <h3 style="margin-bottom:20px;">Gallery Locked</h3>
+                    <p class="mono" style="color:#888; margin-bottom:30px; max-width:400px; margin-left:auto; margin-right:auto;">
+                        Payment is required to unlock your Google Drive link containing all high-resolution assets.
+                    </p>
+                    
+                    <button class="btn btn-solid" onclick="App.pay()">PAY NOW SECURELY</button>
+                    
+                    <div style="margin-top:20px;">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Paystack.png" width="100" style="filter: grayscale(1); opacity: 0.5;">
                     </div>
                 </div>
 
-                <div id="download-section" style="padding: 2rem; text-align: center; display: none;">
-                    <p class="text-gold mono" style="margin-bottom: 1rem;">ACCESS GRANTED</p>
-                    <button class="btn" onclick="alert('Downloading Zip Bundle...')">Download All Assets (ZIP)</button>
-                </div>
-            </div>
-        </div>
-    </section>
+                <div id="drive-step" class="hidden">
+                    <h3 class="text-gold" style="margin-bottom:20px;">ACCESS GRANTED</h3>
+                    
+                    <div class="drive-btn" onclick="App.openDrive()">
+                        <svg width="30" height="30" viewBox="0 0 87.3 78"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8h-27.5c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44a9.06 9.06 0 0 0 -1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.502l5.852 11.5z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-27.5l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.5c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 27.5 47.6c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75z" fill="#ffba00"/></svg>
+                        <span class="mono" style="font-weight:700;">OPEN GOOGLE DRIVE</span>
+                    </div>
 
-    <section id="booking" class="booking-section">
-        <div style="max-width: 900px; margin: 0 auto;">
-            <span class="mono">SERVICES</span>
-            <h2 class="uppercase" style="font-family: var(--font-display); font-size: 2.5rem; margin-bottom: 3rem;">Start a Project</h2>
-            
-            <div class="price-row">
-                <span class="uppercase">Portrait Session</span>
-                <span class="mono">FROM ₦15,000</span>
-            </div>
-            <div class="price-row">
-                <span class="uppercase">Brand Campaign</span>
-                <span class="mono">FROM ₦200,000</span>
-            </div>
-            <div class="price-row">
-                <span class="uppercase">Wedding / Events</span>
-                <span class="mono">FROM ₦1,200,000</span>
-            </div>
-            
-            <div style="margin-top: 3rem; text-align: center;">
-                <p class="mono">FOR BOOKINGS WHATSAPP US</p>
-                <a href="https://w.app/kitchestudios" class="btn" style="margin-top: 1rem;">+234 810 453 0158</a>
+                    <p class="mono" style="font-size:0.7rem; color:#666; margin-top:15px; margin-bottom: 30px;">
+                        Click above to view your photos.
+                    </p>
+
+                    <button class="btn" onclick="App.showReceipt()">PRINT RECEIPT</button>
+                </div>
+
             </div>
         </div>
     </section>
-
-    <footer>
-        <p>&copy; 2026 KITCHE STUDIOS.</p>
-        <br>
-        <span class="staff-login" onclick="AdminApp.toggle()">STAFF LOGIN</span>
-    </footer>
 
     <div id="admin-panel">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 2rem;">
-            <h2 class="text-gold">ADMIN CONSOLE</h2>
-            <button class="btn" onclick="AdminApp.toggle()">CLOSE</button>
+        <h2 class="text-gold" style="margin-bottom:20px;">ADMIN</h2>
+        
+        <div id="admin-login-ui">
+            <input type="password" id="admin-pass" class="admin-input" placeholder="Password">
+            <button class="btn" onclick="Admin.auth()">LOGIN</button>
         </div>
 
-        <div id="admin-login">
-            <input type="password" id="admin-pass" class="form-input" placeholder="Enter Admin Password" style="max-width: 300px;">
-            <button class="btn" style="margin-top: 1rem;" onclick="AdminApp.auth()">Enter</button>
+        <div id="admin-main-ui" class="hidden">
+            <h3 class="mono" style="color:white; margin-bottom:10px;">Create Project</h3>
+            
+            <label class="mono text-gold" style="font-size:0.7rem;">CLIENT NAME</label>
+            <input type="text" id="new-name" class="admin-input" placeholder="e.g. David Wedding">
+
+            <label class="mono text-gold" style="font-size:0.7rem;">ACCESS CODE</label>
+            <input type="text" id="new-code" class="admin-input" placeholder="e.g. DAVID2026">
+
+            <label class="mono text-gold" style="font-size:0.7rem;">PRICE (NAIRA)</label>
+            <input type="number" id="new-price" class="admin-input" placeholder="e.g. 150000">
+
+            <label class="mono text-gold" style="font-size:0.7rem;">GOOGLE DRIVE LINK</label>
+            <input type="text" id="new-link" class="admin-input" placeholder="https://drive.google.com/...">
+
+            <button class="btn btn-solid" style="width:100%; margin-top:10px;" onclick="Admin.create()">CREATE PROJECT</button>
+
+            <hr style="border-color:#333; margin:30px 0;">
+
+            <div id="project-list"></div>
+
+            <button class="btn" style="width:100%; margin-top:20px; border-color:#333; color:#666;" onclick="Admin.close()">CLOSE</button>
         </div>
+    </div>
 
-        <div id="admin-content" class="hidden">
-            <div class="admin-form">
-                <h3 style="margin-bottom: 2rem;">Create New Client Gallery</h3>
-                
-                <div class="form-group">
-                    <label class="form-label">Client / Project Name</label>
-                    <input type="text" id="new-client-name" class="form-input" placeholder="e.g. Wedding of Ada & Tobi">
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">Access Code (Password)</label>
-                    <input type="text" id="new-client-code" class="form-input" placeholder="e.g. ADA2024">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Total Amount (Naira)</label>
-                    <input type="number" id="new-client-price" class="form-input" placeholder="e.g. 500000">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Upload Photos</label>
-                    <input type="file" id="photo-input" multiple accept="image/*" class="form-input">
-                    <p class="mono" style="font-size: 0.7rem; color: #666; margin-top: 5px;">*Images stored locally in browser memory for demo.</p>
-                </div>
-
-                <button class="btn" onclick="AdminApp.createProject()">Generate Gallery</button>
-                <p id="admin-msg" class="text-gold" style="margin-top: 1rem;"></p>
+    <div id="receipt-modal" class="receipt-modal">
+        <div class="receipt-paper">
+            <h2 style="font-family:'Cinzel'; margin-bottom:5px;">KITCHE STUDIOS</h2>
+            <div class="mono" style="font-size:0.7rem;">OFFICIAL RECEIPT</div>
+            <hr style="border:1px dashed #ccc; margin:20px 0;">
+            
+            <div style="text-align:left;">
+                <p class="mono" style="margin-bottom:5px;">DATE: <span id="rec-date"></span></p>
+                <p class="mono" style="margin-bottom:5px;">PROJECT: <span id="rec-name"></span></p>
+                <p class="mono" style="margin-bottom:5px;">REF: <span id="rec-ref"></span></p>
             </div>
 
-            <div style="margin-top: 4rem;">
-                <h3>Active Projects (LocalStorage)</h3>
-                <div id="project-list" class="mono" style="margin-top: 1rem; color: #888;"></div>
+            <hr style="border:1px dashed #ccc; margin:20px 0;">
+
+            <div style="display:flex; justify-content:space-between;">
+                <span class="mono" style="font-weight:bold;">TOTAL PAID:</span>
+                <span class="mono" style="font-weight:bold; font-size:1.2rem;" id="rec-amount"></span>
+            </div>
+
+            <div class="no-print" style="margin-top:30px;">
+                <button class="btn btn-solid" style="padding:10px 20px;" onclick="window.print()">PRINT</button>
+                <button class="btn" style="padding:10px 20px; border:none;" onclick="document.getElementById('receipt-modal').style.display='none'">CLOSE</button>
             </div>
         </div>
     </div>
 
+    <footer style="text-align:center; padding:40px; border-top:1px solid #111;">
+        <span class="mono" style="cursor:pointer; font-size:0.8rem; color:#444;" onclick="Admin.open()">STAFF LOGIN</span>
+    </footer>
+
     <script>
-        // CONFIGURATION
-        const PAYSTACK_PUBLIC_KEY = 'pk_live_8f50c14977db8dc890c79ceac540071e3035faf4'; 
-        
-        // --- 1. ADMIN APP (Upload & Create) ---
-        const AdminApp = {
-            toggle: () => {
-                const panel = document.getElementById('admin-panel');
-                panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-            },
-            
-            auth: () => {
-                const pass = document.getElementById('admin-pass').value;
-                if(pass === 'admin') {
-                    document.getElementById('admin-login').classList.add('hidden');
-                    document.getElementById('admin-content').classList.remove('hidden');
-                    AdminApp.loadProjects();
-                } else {
-                    alert('Wrong password');
-                }
-            },
+        const KEY = 'pk_live_8f50c14977db8dc890c79ceac540071e3035faf4'; // YOUR LIVE KEY
+        const DB_NAME = 'kitche_db_final_v1';
 
-            createProject: async () => {
-                const name = document.getElementById('new-client-name').value;
-                const code = document.getElementById('new-client-code').value;
-                const price = document.getElementById('new-client-price').value;
-                const fileInput = document.getElementById('photo-input');
+        // Load DB
+        let projects = JSON.parse(localStorage.getItem(DB_NAME) || '[]');
+        let activeProj = null;
 
-                if(!name || !code || !price) return alert('Fill all fields');
-
-                // Process Images to Base64 (to simulate upload without server)
-                const images = [];
-                if (fileInput.files.length > 0) {
-                    for (let file of fileInput.files) {
-                        const base64 = await AdminApp.toBase64(file);
-                        images.push(base64);
-                    }
-                } else {
-                    // Default placeholders if no file picked
-                    images.push('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');
-                    images.push('https://images.unsplash.com/photo-1511285560982-1351cdeb9821?w=800');
-                    images.push('https://images.unsplash.com/photo-1520854221256-17451cc330e7?w=800');
-                }
-
-                const project = {
-                    id: Date.now(),
-                    name,
-                    code,
-                    price,
-                    images,
-                    paid: false,
-                    email: 'client@example.com' // simplified
-                };
-
-                // Save to LocalStorage
-                const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
-                db.push(project);
-                localStorage.setItem('kitcheDB', JSON.stringify(db));
-
-                document.getElementById('admin-msg').innerText = `SUCCESS! Project Created. Code: ${code}`;
-                AdminApp.loadProjects();
-            },
-
-            loadProjects: () => {
-                const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
-                const list = document.getElementById('project-list');
-                if(db.length === 0) {
-                    list.innerHTML = "No active projects.";
-                } else {
-                    list.innerHTML = db.map(p => 
-                        `<div style="border-bottom:1px solid #333; padding:10px;">
-                            ${p.name} (Code: ${p.code}) - ₦${p.price} - ${p.paid ? 'PAID' : 'PENDING'}
-                         </div>`
-                    ).join('');
-                }
-            },
-
-            toBase64: file => new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            })
-        };
-
-        // --- 2. CLIENT APP (Portal & Paystack) ---
-        const ClientApp = {
-            currentProject: null,
-
+        // --- APP LOGIC ---
+        const App = {
             login: () => {
-                const inputCode = document.getElementById('access-code').value;
-                const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
-                
-                // Find project by code
-                const project = db.find(p => p.code === inputCode);
-
-                if(project) {
-                    ClientApp.currentProject = project;
-                    ClientApp.renderDashboard(project);
+                const code = document.getElementById('access-code').value;
+                const found = projects.find(p => p.code === code);
+                if(found) {
+                    activeProj = found;
+                    App.loadDash();
                 } else {
-                    // DEMO MODE: If user enters demo code without creating one
-                    if(inputCode === 'DEMO') {
-                        ClientApp.currentProject = {
-                            id: 999, name: 'Demo Campaign', price: '50000', paid: false,
-                            images: ['https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500','https://images.unsplash.com/photo-1509631179647-0177331693ae?w=500']
-                        };
-                        ClientApp.renderDashboard(ClientApp.currentProject);
-                    } else {
-                        document.getElementById('login-error').style.display = 'block';
-                    }
+                    document.getElementById('login-error').style.display = 'block';
                 }
             },
 
-            renderDashboard: (project) => {
-                // Switch Screens
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('client-dashboard').style.display = 'block';
-
-                // Populate Info
-                document.getElementById('client-name').innerText = project.name;
-                document.getElementById('client-amount').innerText = '₦' + parseInt(project.price).toLocaleString();
-                document.getElementById('pay-btn-amount').innerText = '(₦' + parseInt(project.price).toLocaleString() + ')';
-
-                // Populate Grid
-                const grid = document.getElementById('gallery-grid');
-                grid.innerHTML = project.images.map(img => `
-                    <div class="client-img-wrapper">
-                        <img src="${img}" class="client-img">
-                    </div>
-                `).join('');
-
-                // Check Status
-                ClientApp.updateStatusUI(project.paid);
+            loadDash: () => {
+                document.getElementById('login-view').classList.add('hidden');
+                document.getElementById('dashboard-view').classList.remove('hidden');
+                document.getElementById('dash-name').innerText = activeProj.name;
+                document.getElementById('dash-price').innerText = '₦' + parseInt(activeProj.price).toLocaleString();
+                App.updateStatus();
             },
 
-            updateStatusUI: (isPaid) => {
-                const badge = document.getElementById('payment-badge');
-                const overlay = document.getElementById('paywall-overlay');
-                const grid = document.getElementById('gallery-grid');
-                const dlSection = document.getElementById('download-section');
+            updateStatus: () => {
+                const status = document.getElementById('dash-status');
+                const payStep = document.getElementById('pay-step');
+                const driveStep = document.getElementById('drive-step');
 
-                if(isPaid) {
-                    badge.innerText = "PAYMENT COMPLETE";
-                    badge.className = "project-status status-paid";
-                    overlay.style.display = 'none'; // Remove lock
-                    grid.classList.remove('blur-lock'); // Unblur
-                    dlSection.style.display = 'block'; // Show download
+                if(activeProj.paid) {
+                    status.innerText = "PAID IN FULL";
+                    status.style.color = "var(--green)";
+                    payStep.classList.add('hidden');
+                    driveStep.classList.remove('hidden');
                 } else {
-                    badge.innerText = "PAYMENT PENDING";
-                    badge.className = "project-status status-unpaid";
-                    overlay.style.display = 'flex';
-                    grid.classList.add('blur-lock');
-                    dlSection.style.display = 'none';
+                    status.innerText = "UNPAID";
+                    status.style.color = "var(--red)";
+                    payStep.classList.remove('hidden');
+                    driveStep.classList.add('hidden');
                 }
             },
 
             pay: () => {
-                const project = ClientApp.currentProject;
-                
+                // 1. Check if Internet is Active
+                if (typeof PaystackPop === 'undefined') {
+                    alert("Error: Internet connection required for payment.");
+                    return;
+                }
+
+                alert("Initializing Payment Gateway...");
+
+                // 2. Calculate Amount (Ensure it is a clean integer)
+                const amountInKobo = Math.ceil(parseFloat(activeProj.price) * 100);
+
+                // 3. Setup Paystack
                 const handler = PaystackPop.setup({
-                    key: PAYSTACK_PUBLIC_KEY,
-                    email: 'client@kitche.com', // In a real app, ask user for email
-                    amount: project.price * 100, // Convert to Kobo
-                    currency: 'NGN', 
-                    ref: ''+Math.floor((Math.random() * 1000000000) + 1),
-                    onClose: function(){
-                        alert('Payment window closed.');
-                    },
-                    callback: function(response){
-                        // PAYMENT SUCCESSFUL
-                        // 1. Update UI
-                        ClientApp.updateStatusUI(true);
+                    key: KEY,
+                    email: 'client@kitchestudios.com', // Generic email since we don't ask user
+                    amount: amountInKobo,
+                    currency: 'NGN',
+                    ref: 'REF_' + Math.floor((Math.random() * 1000000000) + 1),
+                    callback: function(response) {
+                        // Payment Success
+                        activeProj.paid = true;
+                        activeProj.ref = response.reference;
+                        activeProj.date = new Date().toLocaleDateString();
                         
-                        // 2. Update Database (LocalStorage)
-                        const db = JSON.parse(localStorage.getItem('kitcheDB') || '[]');
-                        const index = db.findIndex(p => p.id === project.id);
-                        if(index !== -1) {
-                            db[index].paid = true;
-                            localStorage.setItem('kitcheDB', JSON.stringify(db));
-                        }
-                        alert('Payment Complete! Gallery Unlocked.');
+                        Admin.save();
+                        App.updateStatus();
+                        App.showReceipt();
+                    },
+                    onClose: function() {
+                        alert('Payment window closed.');
                     }
                 });
+
+                // 4. Open
                 handler.openUI();
+            },
+
+            openDrive: () => {
+                if(activeProj.link) window.open(activeProj.link, '_blank');
+                else alert('No Link Provided. Contact Admin.');
+            },
+
+            showReceipt: () => {
+                document.getElementById('rec-date').innerText = activeProj.date || 'Today';
+                document.getElementById('rec-name').innerText = activeProj.name;
+                document.getElementById('rec-ref').innerText = activeProj.ref || 'N/A';
+                document.getElementById('rec-amount').innerText = '₦' + parseInt(activeProj.price).toLocaleString();
+                document.getElementById('receipt-modal').style.display = 'flex';
             }
         };
 
-        // Scroll Reveal
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if(window.scrollY > 50) nav.style.background = '#050505';
-            else nav.style.background = 'rgba(5, 5, 5, 0.8)';
-        });
+        // --- ADMIN LOGIC ---
+        const Admin = {
+            open: () => document.getElementById('admin-panel').classList.add('open'),
+            close: () => document.getElementById('admin-panel').classList.remove('open'),
+            
+            auth: () => {
+                if(document.getElementById('admin-pass').value === 'admin') {
+                    document.getElementById('admin-login-ui').classList.add('hidden');
+                    document.getElementById('admin-main-ui').classList.remove('hidden');
+                    Admin.render();
+                } else alert('Wrong Password');
+            },
 
+            create: () => {
+                const name = document.getElementById('new-name').value;
+                const code = document.getElementById('new-code').value;
+                let price = document.getElementById('new-price').value;
+                const link = document.getElementById('new-link').value;
+
+                if(!name || !code || !price) return alert('Fill all fields');
+
+                // SANITIZE PRICE (Remove commas if user typed them)
+                price = price.toString().replace(/,/g, '');
+
+                const newP = {
+                    id: Date.now(),
+                    name, code, price, link, paid: false
+                };
+                
+                projects.push(newP);
+                Admin.save();
+                
+                // Reset Fields
+                document.getElementById('new-name').value = '';
+                document.getElementById('new-code').value = '';
+                document.getElementById('new-price').value = '';
+                document.getElementById('new-link').value = '';
+                
+                alert('Project Created');
+                Admin.render();
+            },
+
+            save: () => localStorage.setItem(DB_NAME, JSON.stringify(projects)),
+
+            del: (id) => {
+                if(confirm('Delete?')) {
+                    projects = projects.filter(p => p.id !== id);
+                    Admin.save();
+                    Admin.render();
+                }
+            },
+
+            render: () => {
+                const list = document.getElementById('project-list');
+                list.innerHTML = projects.map(p => `
+                    <div style="border-bottom:1px solid #333; padding:10px 0; display:flex; justify-content:space-between;">
+                        <span class="mono" style="font-size:0.8rem; color:white;">${p.name}</span>
+                        <span class="mono" style="color:red; cursor:pointer;" onclick="Admin.del(${p.id})">[X]</span>
+                    </div>
+                `).join('');
+            }
+        };
     </script>
 </body>
-
 </html>
-
-
-
-
